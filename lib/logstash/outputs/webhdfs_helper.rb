@@ -31,8 +31,12 @@ module LogStash
         if @use_ssl_auth
           require 'openssl'
           client.ssl = true
-          client.ssl_key = OpenSSL::PKey::RSA.new(open(@ssl_key))
-          client.ssl_cert = OpenSSL::X509::Certificate.new(open(@ssl_cert))
+          if @ssl_key
+            client.ssl_key = OpenSSL::PKey::RSA.new(open(@ssl_key))
+          end
+          if @ssl_cert
+            client.ssl_cert = OpenSSL::X509::Certificate.new(open(@ssl_cert))
+          end
         end
         client.httpfs_mode = @use_httpfs
         client.open_timeout = @open_timeout
